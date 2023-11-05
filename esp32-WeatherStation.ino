@@ -1,3 +1,5 @@
+#include "index.h" // Inclui o arquivo "index.h"
+
 #include <WiFi.h>
 #include <WebServer.h>
 #include <ESPmDNS.h>
@@ -54,25 +56,30 @@ void handleRoot() {
 
   medirTemperaturaHumidade ();
 
-  String html = "<html><body>";
-  html += "<h1>Temperatura:</h1>";
-  html += "<p id='temperatura'>";
-  html += temperatura;
-  html += " &#8451;</p>"; // rever
-  html += "<script>";
-  html += "setInterval(function() {";
-  html += "  var xhttp = new XMLHttpRequest();";
-  html += "  xhttp.onreadystatechange = function() {";
-  html += "    if (this.readyState == 4 && this.status == 200) {";
-  html += "      document.getElementById('temperatura').innerHTML = this.responseText;";
-  html += "    }";
-  html += "  };";
-  html += "  xhttp.open('GET', '/get-temperatura', true);";
-  html += "  xhttp.send();";
-  html += "}, 5000);"; // Atualiza a temperatura a cada 5 segundos.
-  html += "</script>";
-  html += "</body></html>";
-  server.send(200, "text/html", html);
+//  String html = "<html><body>";
+//  html += "<h1>Temperatura:</h1>";
+//  html += "<p id='temperatura'>";
+//  html += temperatura;
+//  html += " &#8451;</p>"; // rever
+//  html += "<script>";
+//  html += "setInterval(function() {";
+//  html += "  var xhttp = new XMLHttpRequest();";
+//  html += "  xhttp.onreadystatechange = function() {";
+//  html += "    if (this.readyState == 4 && this.status == 200) {";
+//  html += "      document.getElementById('temperatura').innerHTML = this.responseText;";
+//  html += "    }";
+//  html += "  };";
+//  html += "  xhttp.open('GET', '/get-temperatura', true);";
+//  html += "  xhttp.send();";
+//  html += "}, 5000);"; // Atualiza a temperatura a cada 5 segundos.
+//  html += "</script>";
+//  html += "</body></html>";
+//  server.send(200, "text/html", html);
+
+  // Substitui o marcador de posição %TEMPERATURE% pelo valor real da temperatura
+  String response = String(html_content);
+  response.replace("%TEMPERATURE%", String(temperatura));
+  server.send(200, "text/html", response);
 }
 
 void handleGetTemperatura() {
